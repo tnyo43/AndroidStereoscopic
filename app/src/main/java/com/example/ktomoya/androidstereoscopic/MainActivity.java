@@ -16,19 +16,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context = this;
-
-
-        addText("ほげ", 0, 0, 10, -5);
-        addText("ふー", 0, 50, 20, 0);
-        addText("ばー", 0, 100, 30, 5);
-
-    }
-
-    public void addText(String text, int left, int top, int size, int level) {
-        /**
-         * level : -5 ~ 5 (0 is the nomal view)
-         */
-        ((StereoscopicView)findViewById(R.id.stereoscopicview)).addText(text, left, top, size, level);
     }
 }
