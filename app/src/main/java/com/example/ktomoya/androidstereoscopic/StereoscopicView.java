@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -25,7 +26,8 @@ public class StereoscopicView extends LinearLayout{
     InputField inputField;
     SeekBar sizeseek, levelseek;
     private Context context;
-    private Button reflectBtn;
+    private Button addBtn, reflectBtn;
+    EditText newText;
 
     public StereoscopicView(Context context) {
         this(context, null);
@@ -48,16 +50,17 @@ public class StereoscopicView extends LinearLayout{
         inputField = (InputField) findViewById(R.id.inputfield);
         inputField.setMinimumWidth(rightsf.getWidth());
         inputField.setStereoscopicField(leftsf, rightsf);
+        inputField.setStereoscopicView(this);
 
         sizeseek = (SeekBar)findViewById(R.id.textsize);
         levelseek = (SeekBar)findViewById(R.id.textsteroscopic);
 
-        sizeseek.setMax(100);
+        sizeseek.setMax(50);
         sizeseek.setOnSeekBarChangeListener(
             new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    int size = progress/2 + 10;
+                    int size = progress + 10;
                     inputField.setSize(size);
                     Log.d("SEEK", String.valueOf(size));
                     //reflect();
@@ -73,22 +76,55 @@ public class StereoscopicView extends LinearLayout{
 
             });
 
+        levelseek.setMax(10);
+        levelseek.setOnSeekBarChangeListener(
+            new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    inputField.setLevel(progress-5);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            }
+        );
+
+        newText = (EditText)findViewById(R.id.newtext);
+
+        addBtn = (Button)findViewById(R.id.addbtn);
+        addBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = newText.getText().toString();
+                Log.d("new text", text);
+                inputField.addText(text);
+                newText.setText("");
+            }
+        });
+
         reflectBtn = (Button)findViewById(R.id.reflectbtn);
         reflectBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<StescoTextView> list = inputField.list;
-                for (StescoTextView textView : list) {
-                    Log.d("list", textView.getText().toString());
-                    Log.d("left", String.valueOf(textView.getLeft()));
-                    Log.d("top", String.valueOf(textView.getTop()));
-                    Log.d("size", String.valueOf(textView.getTextSize()));
-                    Log.d("level", String.valueOf(textView.level));
+                clear();
 
-                    addText(textView.getText().toString(), textView.getLeft(), textView.getTop(), (int)textView.getTextSize(), (int)(Math.random()*4)-2);
-                }
+                List<StescoTextView> list = inputField.list;
+                for (StescoTextView textView : list)
+                    addText(textView.getText().toString(), textView.getLeft(), textView.getTop(), textView.size, textView.level);
             }
         });
+    }
+
+    public void setSeekbar(int size, int level) {
+        sizeseek.setProgress(size-10);
+        levelseek.setProgress(level+5);
     }
 
     @Override
@@ -100,6 +136,11 @@ public class StereoscopicView extends LinearLayout{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public void clear() {
+        rightsf.removeAllViews();
+        leftsf.removeAllViews();
     }
 
     public void addText(String text, int left, int top, int size, int level) {

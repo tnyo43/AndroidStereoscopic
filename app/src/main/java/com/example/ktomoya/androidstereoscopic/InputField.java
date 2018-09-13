@@ -21,6 +21,7 @@ public class InputField extends RelativeLayout {
     Context context;
 
     StereoscopicField stescoLeft, stescoRight;
+    StereoscopicView stereoscopicView;
 
     public InputField(Context context) {
         this(context, null);
@@ -39,11 +40,6 @@ public class InputField extends RelativeLayout {
         right = new LinkedList<StescoTextView>();
         inputfield = this;
 
-
-        addText("ほげ");
-        addText("ばー");
-        addText("ふー");
-
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -56,8 +52,7 @@ public class InputField extends RelativeLayout {
                     StescoTextView tv = list.get(i);
                     if (tv.getX() <= x && x <= tv.getX()+tv.getWidth() && tv.getY() <= y && y <= tv.getY()+tv.getHeight()) {
                         textView = tv;
-                        //textViewLeft = left.get(i);
-                        //textViewRight = right.get(i);
+                        stereoscopicView.setSeekbar(textView.size, textView.level);
                         break;
                     }
                 }
@@ -79,12 +74,16 @@ public class InputField extends RelativeLayout {
         });
     }
 
+    public void setStereoscopicView(StereoscopicView stereoscopicView) {
+        this.stereoscopicView = stereoscopicView;
+    }
+
     public void setStereoscopicField(StereoscopicField l, StereoscopicField r) {
         stescoLeft = l;
         stescoRight = r;
     }
 
-    private void addText(String text) {
+    public void addText(String text) {
         StescoTextView textView = new StescoTextView(context);
         textView.setText(text);
         addView(textView);
@@ -103,6 +102,13 @@ public class InputField extends RelativeLayout {
             lp.leftMargin = textView.getLeft()+dw/2;
             inputfield.removeView(textView);
             inputfield.addView(textView, lp);
+            textView.size = size;
+        }
+    }
+
+    public void setLevel(int level) {
+        if (textView != null) {
+            textView.level = level;
         }
     }
 }

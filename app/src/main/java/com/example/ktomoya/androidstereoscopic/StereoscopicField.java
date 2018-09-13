@@ -36,8 +36,6 @@ public class StereoscopicField extends RelativeLayout {
         super(context, attrs, defStyleAttr);
 
         isLeft = false;
-
-        this.setBackgroundResource(R.drawable.grid);
     }
 
     protected void move(StescoTextView textView, int left, int top) {
@@ -50,6 +48,7 @@ public class StereoscopicField extends RelativeLayout {
          */
         TextView textView = new TextView(context);
         textView.setText(text);
+        textView.setSingleLine(true);
         textView.setTextSize(size);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         level = Math.max(Math.min(level, 5), -5);

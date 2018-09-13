@@ -9,6 +9,8 @@ import android.widget.TextView;
 public class StescoTextView extends AppCompatTextView {
 
     public int level;
+    public int size;
+
     Context context;
 
     public StescoTextView(Context context) {
@@ -22,6 +24,8 @@ public class StescoTextView extends AppCompatTextView {
     public StescoTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        setSingleLine(true);
+        size = 10;
         level = 0;
     }
 }

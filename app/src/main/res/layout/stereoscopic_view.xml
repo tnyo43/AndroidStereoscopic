@@ -17,7 +17,7 @@
             android:layout_height="200dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="#f0e68c">
+            android:background="@drawable/grid">
 
         </com.example.ktomoya.androidstereoscopic.StereoscopicField>
 
@@ -27,21 +27,36 @@
             android:layout_height="200dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="#f0e68c">
+            android:background="@drawable/grid">
 
         </com.example.ktomoya.androidstereoscopic.StereoscopicField>
     </LinearLayout>
 
 
-    <com.example.ktomoya.androidstereoscopic.InputField
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/inputfield"
-        android:background="#ffcccc"
-        >
-    </com.example.ktomoya.androidstereoscopic.InputField>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
+        <com.example.ktomoya.androidstereoscopic.InputField
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_weight="2"
+            android:id="@+id/inputfield"
+            android:background="@drawable/grid"
+            >
+        </com.example.ktomoya.androidstereoscopic.InputField>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,10 +81,12 @@
 
 
         <EditText
+            android:id="@+id/newtext"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_height="wrap_content" />
         <Button
+            android:id="@+id/addbtn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
